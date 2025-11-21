@@ -1,4 +1,4 @@
-# TremQueTem
+# Trem que Tem
 O Trem que Tem é o app que salva sua fome quando bate aquela dúvida: “Uai, o que que eu faço com esse monte de trem aqui?”
 
 É simples: você diz o que tem na geladeira e ele te mostra receitas tão bãozinhas que até sua avó vai querer saber onde você aprendeu.
