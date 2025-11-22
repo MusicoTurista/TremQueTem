@@ -1,7 +1,7 @@
 import { Drawer } from 'expo-router/drawer';
 
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 export default function DrawerLayout() {
   return (
     <Drawer
@@ -31,7 +31,7 @@ export default function DrawerLayout() {
         name="(tabs)"
         options={{
           title: 'Receitas',
-          drawerIcon: ({ color, size }) => (<FontAwesome5 name="bitcoin" size={size+4} color={color} />)
+          drawerIcon: ({ color, size }) => (<MaterialCommunityIcons name="silverware" size={size+4} color={color} />)
         }}
       />}
 

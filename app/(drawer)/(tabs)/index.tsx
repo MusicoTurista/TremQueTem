@@ -1,16 +1,21 @@
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { globalStyles } from '../../../styles/global';
 import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TextInput, Switch } from 'react-native';
+import { View, Text, StyleSheet, TextInput } from 'react-native';
 
-const URL = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100';
+import {TurnButton} from '../../../components/TurnButton'
+
 
 export default function ListagemScreen() {
 
     const [valor, setValor] = useState<number>(0);
 
 
-    const [isEnabled, setEnabled] = useState<boolean>(true);
+    
+    const [useAgua, setUseAgua] = useState<boolean>(true);
+    const [useSal, setUseSal] = useState<boolean>(true);
+    const [useAcucar, setUseAcucar] = useState<boolean>(true);
+    const [useOvo, setUseOvo] = useState<boolean>(true);
 
     return (
         <SafeAreaView style={[globalStyles.container, { alignItems: 'center' }]}>
@@ -27,6 +32,7 @@ export default function ListagemScreen() {
                     padding: 20,
                     borderRadius: 20,
                     textAlignVertical: 'top',
+                    marginBottom: 15,
                 }]}
                 placeholderTextColor="#666"
                 onChangeText={setValor}
@@ -37,83 +43,32 @@ export default function ListagemScreen() {
             />
             <View style={{
                 flexDirection: 'row',
+                /* flexWrap: 'wrap', */
                 flexWrap: 'wrap',
-                alignContent: 'center',
-                alignItems: 'center',
-
+                justifyContent: 'center',
             }}>
-                <View style={styles.section}>
-                    <Text style={globalStyles.descricao}>
-                        {"Ovo"}
-                    </Text>
-                    <Switch
-                        trackColor={{ false: "#838383ff", true: "#838383ff" }}
-                        thumbColor={isEnabled ? "#f78f25" : "#f4f3f4"}
-                        ios_backgroundColor="#838383ff"
-                        onValueChange={setEnabled}
-                        value={isEnabled}
-                    />
-                </View>
-                <View style={styles.section}>
-                    <Text style={globalStyles.descricao}>
-                        {"Ovo"}
-                    </Text>
-                    <Switch
-                        trackColor={{ false: "#838383ff", true: "#838383ff" }}
-                        thumbColor={isEnabled ? "#f78f25" : "#f4f3f4"}
-                        ios_backgroundColor="#838383ff"
-                        onValueChange={setEnabled}
-                        value={isEnabled}
-                    />
-                </View>
-                <View style={styles.section}>
-                    <Text style={globalStyles.descricao}>
-                        {"Ovo"}
-                    </Text>
-                    <Switch
-                        trackColor={{ false: "#838383ff", true: "#838383ff" }}
-                        thumbColor={isEnabled ? "#f78f25" : "#f4f3f4"}
-                        ios_backgroundColor="#838383ff"
-                        onValueChange={setEnabled}
-                        value={isEnabled}
-                    />
-                </View>
-                <View style={styles.section}>
-                    <Text style={globalStyles.descricao}>
-                        {"Ovo"}
-                    </Text>
-                    <Switch
-                        trackColor={{ false: "#838383ff", true: "#838383ff" }}
-                        thumbColor={isEnabled ? "#f78f25" : "#f4f3f4"}
-                        ios_backgroundColor="#838383ff"
-                        onValueChange={setEnabled}
-                        value={isEnabled}
-                    />
-                </View>
-                <View style={styles.section}>
-                    <Text style={globalStyles.descricao}>
-                        {"Ovo"}
-                    </Text>
-                    <Switch
-                        trackColor={{ false: "#838383ff", true: "#838383ff" }}
-                        thumbColor={isEnabled ? "#f78f25" : "#f4f3f4"}
-                        ios_backgroundColor="#838383ff"
-                        onValueChange={setEnabled}
-                        value={isEnabled}
-                    />
-                </View>
-                <View style={styles.section}>
-                    <Text style={globalStyles.descricao}>
-                        {"Ovo"}
-                    </Text>
-                    <Switch
-                        trackColor={{ false: "#838383ff", true: "#838383ff" }}
-                        thumbColor={isEnabled ? "#f78f25" : "#f4f3f4"}
-                        ios_backgroundColor="#838383ff"
-                        onValueChange={setEnabled}
-                        value={isEnabled}
-                    />
-                </View>
+
+                <TurnButton
+                    text = "Agua"
+                    state = {useAgua}
+                    onPress = {() => {setUseAgua(prev => !prev)}}
+                />
+                <TurnButton
+                    text = "Sal"
+                    state = {useSal}
+                    onPress = {() => {setUseSal(prev => !prev)}}
+                />
+                <TurnButton
+                    text = "Açucar"
+                    state = {useAcucar}
+                    onPress = {() => {setUseAcucar(prev => !prev)}}
+                />
+                <TurnButton
+                    text = "Ovo"
+                    state = {useOvo}
+                    onPress = {() => {setUseOvo(prev => !prev)}}
+                />
+
             </View>
 
         </SafeAreaView>
@@ -126,4 +81,23 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 10,
     },
+
+    active: {
+    alignSelf: 'flex-start',
+    paddingHorizontal:20,
+    paddingVertical:5,
+    borderRadius:200,
+    backgroundColor: '#f78f25',
+    color: '#fff',
+    margin: 5,
+  },
+  deactive: {
+    alignSelf: 'flex-start',
+    paddingHorizontal:20,
+    paddingVertical:5,
+    borderRadius:200,
+    backgroundColor: '#aaa',
+    color: '#fff',
+    margin: 5,
+  },
 })

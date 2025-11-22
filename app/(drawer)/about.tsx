@@ -1,5 +1,5 @@
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { View, Text, StyleSheet, Image, Linking, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Image} from 'react-native';
 import { globalStyles } from '../../styles/global';
 
 export default function SobreScreen() {
@@ -10,25 +10,24 @@ export default function SobreScreen() {
                     source={require('../../assets/images/icon.png')}
                     style={styles.logo}
                 />
-                <View style={{ flex: 1 }}>
-                    <Text style={globalStyles.titulo}>Mercado Cripto</Text>
-                    <Text style={globalStyles.subtitulo}>Explorador de cotações com CoinGecko</Text>
+                <View style={{ flexDirection: 'column', flex:1, paddingRight:8}}>
+                    <Text style={globalStyles.title}>Trem que Tem</Text>
+                    <Text style={globalStyles.subTitle}>Crie receitas com o que tem na hora!</Text>
                 </View>
             </View>
 
             <View style={styles.card}>
                 <Text style={styles.sectionTitle}>Sobre o App</Text>
-                <Text style={globalStyles.texto}>
-                    Este aplicativo foi desenvolvido para estudo de desenvolvimento movel. Utilizando de consumo de APIs,
-                    navegação por Drawer e React Native + Expo.
+                <Text style={styles.text}>
+                    O Trem que Tem te ajuda a descobrir receitas usando apenas os ingredientes que você já tem em casa. Simples, rápido e sem desperdício. Cozinhar vira um trem bão sem complicação!
                 </Text>
             </View>
 
             <View style={styles.card}>
                 <Text style={styles.sectionTitle}>Tecnologias</Text>
-                <Text style={globalStyles.texto}>• React Native + Expo</Text>
-                <Text style={globalStyles.texto}>• Expo Router (file-based routing)</Text>
-                <Text style={globalStyles.texto}>• CoinGecko API (cotações em JSON)</Text>
+                <Text style={styles.text}>• React Native + Expo</Text>
+                <Text style={styles.text}>• Expo Router (file-based routing)</Text>
+                <Text style={styles.text}>• Gemini API (Geração de receitas)</Text>
             </View>
 
             <Text style={styles.footer}>v1.0.0</Text>
@@ -37,10 +36,10 @@ export default function SobreScreen() {
 }
 
 const styles = StyleSheet.create({
-    header: { flexDirection: 'row', alignItems: 'center', marginBottom: 16 },
-    logo: { width: 64, height: 64, borderRadius: 10, marginRight: 12 },
+    header: { flexDirection: 'row', marginBottom: 16, alignItems: 'center'},
+    logo: { width: 125, height: 125, borderRadius: 10},
     card: {
-        backgroundColor: '#3b3a49ff',
+        backgroundColor: '#ffeabeff',
         borderRadius: 12,
         padding: 16,
         marginBottom: 12,
@@ -48,8 +47,12 @@ const styles = StyleSheet.create({
         borderColor: '#2a2a2a',
         width: '100%',
     },
-    sectionTitle: { color: '#fff', fontSize: 16, fontWeight: '600', marginBottom: 8 },
-    links: { marginTop: 8, gap: 8 },
-    link: { color: '#69b7ff', fontSize: 14, textDecorationLine: 'underline' },
+    sectionTitle: { color: '#f78f25', fontSize: 16, fontWeight: '600', marginBottom: 8 },
     footer: { marginTop: 'auto', color: '#777', textAlign: 'center', fontSize: 12 },
+    text: {
+        margin: 20,
+        fontSize: 13,
+        marginVertical: 5,
+        color: '#000',
+    },
 });
