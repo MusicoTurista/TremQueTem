@@ -12,7 +12,9 @@ export default function RootLayout() {
         <SafeAreaProvider>
             <SafeAreaView style={globalStyles.screen}>
                 <Stack
-                    screenOptions={{headerShown: false}}
+                    screenOptions={{headerShown: false,
+                        headerStyle: {backgroundColor: '#fffff1'}
+                    }}
                 >
                 </Stack>
             </SafeAreaView>
