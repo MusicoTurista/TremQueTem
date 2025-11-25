@@ -1,7 +1,5 @@
 import { Tabs } from 'expo-router';
 
-import {View} from 'react-native'
-
 import { MaterialIcons } from '@expo/vector-icons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 

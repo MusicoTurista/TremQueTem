@@ -4,10 +4,17 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { useState, useEffect } from 'react'
 import { useLocalSearchParams } from 'expo-router';
 import { globalStyles } from '../styles/global';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { favoritaEvents } from '../events/favoritaEvent';
 
 import { MaterialIcons } from '@expo/vector-icons';
 
 import { part1, part2, part3, part4 } from '../components/Prompt'
+
+import { Item, Passo } from '../components/ComponentesReceita'
+
+import Separador from '../components/Separador'
 
 function capitalizeFirstLetter(str: string) {
     if (typeof str !== 'string' || str.length === 0) {
@@ -16,40 +23,16 @@ function capitalizeFirstLetter(str: string) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-const Item = ({ nome, quantidade, unidade, nota }: ItemProps) => (
-    <View style={globalStyles.item}>
-        <Text style={globalStyles.subTitle}>
-            {nome} - {quantidade} {unidade}
-        </Text>
-        <Text style={globalStyles.descricao}>{nota}</Text>
-    </View>
-);
+import getAPIKey from '../assets/apiKey'
 
-const Passo = ({ passo, titulo, instrucao }: ItemProps) => (
-    <View style={globalStyles.item}>
-        <Text style={globalStyles.subTitle}>
-            {passo} - {titulo}
-        </Text>
-        <Text style={globalStyles.descricao}>{instrucao}</Text>
-    </View>
-);
-
-const Separador = () => (
-    <View
-        style={{
-            height: 5,
-            backgroundColor: '#f78f25',
-            marginVertical: 15,
-            borderRadius: 200,
-        }}
-    />
-);
-
-const API_KEY = 'AIzaSyAVd_SQjsQveBBHCgzvn_6o16D7qh5zjwI'
+const API_KEY = getAPIKey()
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`
 
-export default function HomeScreen() {
+const RECEITAS_FAVORITAS = 'receitas_favoritas';
 
+var receitaID = 0
+
+export default function ReceitaScreen() {
     const [Receita, setReceita] = useState<JSON>();
 
     const { list } = useLocalSearchParams();
@@ -58,20 +41,64 @@ export default function HomeScreen() {
 
     const [isFavorite, setFavorite] = useState<boolean>(false);
 
+    
+    function generateNewId(favoritas) {
+        if (!favoritas.length) return 1;
+        const ids = favoritas.map(f => f.id);
+        return Math.max(...ids) + 1;
+    }
+
+    const ToggleFavorito = () => {
+    AsyncStorage.getItem(RECEITAS_FAVORITAS)
+        .then(res => {
+            const favoritas = res ? JSON.parse(res) : [];
+
+            if (isFavorite) {
+                const favoritas_atualizado = favoritas.filter((data) => {
+                    return data.id !== receitaID
+                });
+
+                AsyncStorage.setItem(RECEITAS_FAVORITAS, JSON.stringify(favoritas_atualizado))
+                    .then(() => {
+                        setFavorite(false);
+                        favoritaEvents.emit('favoritos:changed');
+                        
+                    });
+
+            } else {
+                receitaID = generateNewId(favoritas)
+                const saveFile = {
+                    id: receitaID,
+                    receita: Receita
+                };
+
+                const favoritas_atualizado = [...favoritas, saveFile];
+
+                AsyncStorage.setItem(RECEITAS_FAVORITAS, JSON.stringify(favoritas_atualizado))
+                    .then(() => {
+                        setFavorite(true);
+                        favoritaEvents.emit('favoritos:changed');
+                    });
+            }
+        });
+};
+
+
     const gerarReceita = () => {
+        
         const recipeData = JSON.parse(list as string)
 
-        var promtpFinal = part1(recipeData.tipo) + recipeData.receita
-
-        if (recipeData.basicos != '') {
-            promtpFinal += ' ' + part2() + recipeData.basicos
-        }
-        if (recipeData.resticoes != '') {
-            promtpFinal += ' ' + part3() + recipeData.resticoes
-        }
-        promtpFinal += part4()
-
         if (recipeData.aiSearch) {
+            var promtpFinal = part1(recipeData.tipo) + recipeData.receita
+
+            if (recipeData.basicos != '') {
+                promtpFinal += ' ' + part2() + recipeData.basicos
+            }
+            if (recipeData.resticoes != '') {
+                promtpFinal += ' ' + part3() + recipeData.resticoes
+            }
+            promtpFinal += part4()
+
             fetch(API_URL, {
                 method: 'POST',
                 headers: {
@@ -96,6 +123,18 @@ export default function HomeScreen() {
                 })
                 .catch(err => setError(true))
                 .finally(() => setLoading(false))
+        } else {
+            AsyncStorage.getItem(RECEITAS_FAVORITAS)
+                .then(res => {
+                    const favoritas = res ? JSON.parse(res) : [];
+                    const receitaFinal = favoritas.filter((m) => m.id === recipeData.id)[0]
+
+                    receitaID = receitaFinal.id
+                    setReceita(receitaFinal.receita)
+                })
+                .catch(err => setError(true))
+                .finally(() => setLoading(false));
+            setFavorite(true)
         }
     }
 
@@ -142,17 +181,17 @@ export default function HomeScreen() {
                             alignContent: 'center'
                         }}>
 
-                            <Text style={[globalStyles.descricao2, {marginHorizontal:5}]}>
+                            <Text style={[globalStyles.descricao2, { marginHorizontal: 5 }]}>
                                 {Receita.dificuldade} - {Receita.tempo_preparo}
                             </Text>
                             <Pressable onPress={() => {
-                                setFavorite(!isFavorite)
+                                ToggleFavorito()
                             }}>
                                 <MaterialIcons name="favorite" size={25} color={isFavorite ? '#f78f25' : '#252525ff'} />
                             </Pressable>
                         </View>
-                        
-                        <Text style={[globalStyles.descricao, {textAlign:'center'}]}>{Receita.descricao}</Text>
+
+                        <Text style={[globalStyles.descricao, { textAlign: 'center' }]}>{Receita.descricao}</Text>
 
                         <Separador />
 
@@ -168,7 +207,6 @@ export default function HomeScreen() {
                                     nota={item.nota}
                                 />
                             )}
-                            keyExtractor={(item) => item.nome}
                         />
 
                         <Separador />

@@ -2,6 +2,7 @@ import { Drawer } from 'expo-router/drawer';
 
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import Entypo from '@expo/vector-icons/Entypo';
 export default function DrawerLayout() {
   return (
     <Drawer
@@ -16,7 +17,7 @@ export default function DrawerLayout() {
 
         drawerType: 'front',         // Pode ser 'front', 'back', 'slide', 'permanent'
         drawerHideStatusBarOnOpen: false,
-        
+
         //Aparência do menu
         drawerStyle: { width: 280, backgroundColor: '#fffff1' },
         drawerActiveTintColor: '#f78f25',
@@ -31,7 +32,15 @@ export default function DrawerLayout() {
         name="(tabs)"
         options={{
           title: 'Receitas',
-          drawerIcon: ({ color, size }) => (<MaterialCommunityIcons name="silverware" size={size+4} color={color} />)
+          drawerIcon: ({ color, size }) => (<MaterialCommunityIcons name="silverware" size={size + 4} color={color} />)
+        }}
+      />}
+
+      {<Drawer.Screen
+        name="tutorial"
+        options={{
+          title: 'Tutorial',
+          drawerIcon: ({ color, size }) => (<Entypo name="open-book" size={size + 4} color={color} />)
         }}
       />}
 
@@ -39,10 +48,10 @@ export default function DrawerLayout() {
         name="about"
         options={{
           title: 'Sobre',
-          drawerIcon: ({ color, size }) => (<FontAwesome name="info-circle" size={size+4} color={color} />)
+          drawerIcon: ({ color, size }) => (<FontAwesome name="info-circle" size={size + 4} color={color} />)
         }}
       />}
-      
+
     </Drawer>
   );
 }
