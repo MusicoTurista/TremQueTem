@@ -25,7 +25,7 @@ export default function ListagemScreen() {
     const [useAgridoce, setUseAgridoce] = useState<boolean>(false);
 
     const [useLactose, setUseLactose] = useState<boolean>(false);
-    const [useGlutem, setUseGlutem] = useState<boolean>(false);
+    const [useGluten, setUseGluten] = useState<boolean>(false);
 
     return (
         <SafeAreaView style={[globalStyles.container, { alignItems: 'center' }]}>
@@ -45,15 +45,12 @@ export default function ListagemScreen() {
                         textAlignVertical: 'top',
                         marginBottom: 15,
                     }]}
-                    placeholderTextColor="  #838383ff"
+                    placeholderTextColor='grey'
                     onChangeText={setValor}
                     value={valor}
                     multiline={true}
                     numberOfLines={4}
-                    placeholder="Ingredientes...
-Ex:
-Pimenta, batata, feijão
-Pode conter banana, manga"
+                    placeholder={'Ingredientes...\nEx:\nPimenta, batata, feijão\nPode conter banana, manga'}
                 />
 
                 <Text style={globalStyles.descricao2}>
@@ -83,7 +80,7 @@ Pode conter banana, manga"
                         onPress={() => { setUseCebola(prev => !prev) }}
                     />
                     <TurnButton
-                        text="Oleo"
+                        text="Óleo"
                         state={useOleo}
                         onPress={() => { setUseOleo(prev => !prev) }}
                     />
@@ -151,9 +148,9 @@ Pode conter banana, manga"
                         onPress={() => { setUseLactose(prev => !prev) }}
                     />
                     <TurnButton
-                        text="Glutem"
-                        state={useGlutem}
-                        onPress={() => { setUseGlutem(prev => !prev) }}
+                        text="Glúten"
+                        state={useGluten}
+                        onPress={() => { setUseGluten(prev => !prev) }}
                     />
                 </View>
                 <Pressable onPress={() => {
@@ -174,13 +171,13 @@ Pode conter banana, manga"
                         _basicos += 'Cebola, '
                     }
                     if (useOleo) {
-                        _basicos += 'Oleo, '
+                        _basicos += 'Óleo, '
                     }
                     if (useAzeite) {
                         _basicos += 'Azeite, '
                     }
                     if (useAcucar) {
-                        _basicos += 'Acucar, '
+                        _basicos += 'Açúcar, '
                     }
                     if (useFarinha) {
                         _basicos += 'Farinha, '
@@ -200,8 +197,8 @@ Pode conter banana, manga"
                     if (useLactose) {
                         _restricoes += 'Lactose, '
                     }
-                    if (useGlutem) {
-                        _restricoes += 'Glutem'
+                    if (useGluten) {
+                        _restricoes += 'Glúten'
                     }
 
                     const dataTable = {
