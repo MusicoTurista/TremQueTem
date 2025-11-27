@@ -2,7 +2,7 @@
 
 Telas:
 
-1 - Criar receita:
+Criar receita:
     Possui um input de texto para adicionar ingredientes que serão usados na receita
     Toggle de ingredientes basicos, que podem ser usados na receita como facilitadores
     Seletor de tipo de receita a ser gerada (Salgado, doce ou agridoce)
